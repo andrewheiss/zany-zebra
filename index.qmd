@@ -1,0 +1,16 @@
+---
+title: "King County Causal Inference"
+author: "JuneMi Kang and Andrew Heiss"
+format:
+  html:
+    code-tools: false
+    toc: false
+---
+
+## Abstract
+
+Abstract goes here
+
+## Code
+
+All the raw code and data for this paper is available in a [GitHub repository](https://github.com/andrewheiss/zany-zebra).
