@@ -1,0 +1,24 @@
+---
+title: "Data cleaning"
+format:
+  html:
+    code-fold: "show"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.align = "center", fig.retina = 3,
+                      fig.width = 6, fig.height = (6 * 0.618),
+                      out.width = "80%", collapse = TRUE,
+                      dev = "png", dev.args = list(type = "cairo-png"))
+
+options(digits = 3, width = 90,
+        dplyr.summarise.inform = FALSE)
+```
+
+```{r load-packages, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(tidycensus)
+library(sf)
+library(lubridate)
+library(here)
+```

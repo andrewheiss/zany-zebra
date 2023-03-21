@@ -51,17 +51,27 @@ website:
     right:
       - icon: github
         aria-label: github
-        href: https://github.com/andrewheiss/zany-zebra
+        href: https://github.com/andrewheiss/mountainous-mackerel
+
+  sidebar:
+    - title: "Data"
+      style: docked
+      background: dark
+      contents:
+        - notebook/data.qmd
+        - notebook/clean-data.qmd
     
-    page-footer:
-      left: |
-        Content {{< fa brands creative-commons >}} 2022–23 by JuneMi Kang and Andrew Heiss<br>
-        All content licensed under a {{< fa brands creative-commons >}}
-        {{< fa brands creative-commons-by >}} {{< fa brands creative-commons-nc >}}
-        [Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
-      right: |
-        Made with {{< fa brands r-project >}} and [Quarto](https://quarto.org/)<br>
-        [View the source at {{< fa brands github >}} GitHub](https://github.com/andrewheiss/zany-zebra)
+    - title: "Empty space lol"
+
+  page-footer:
+    left: |
+      Content {{< fa brands creative-commons >}} 2022–23 by JuneMi Kang and Andrew Heiss<br>
+      All content licensed under a {{< fa brands creative-commons >}}
+      {{< fa brands creative-commons-by >}} {{< fa brands creative-commons-nc >}}
+      [Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
+    right: |
+      Made with {{< fa brands r-project >}} and [Quarto](https://quarto.org/)<br>
+      [View the source at {{< fa brands github >}} GitHub](https://github.com/andrewheiss/zany-zebra)
 
 format:
   html:

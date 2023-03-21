@@ -1,0 +1,14 @@
+{
+  "hash": "5e51bbc83987578628bce0b09052ca65",
+  "result": {
+    "markdown": "---\ntitle: \"Data cleaning\"\nformat:\n  html:\n    code-fold: \"show\"\n---\n\n\n\n::: {.cell layout-align=\"center\"}\n\n```{.r .cell-code}\nlibrary(tidyverse)\nlibrary(tidycensus)\nlibrary(sf)\nlibrary(lubridate)\nlibrary(here)\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
