@@ -51,7 +51,7 @@ website:
     right:
       - icon: github
         aria-label: github
-        href: https://github.com/andrewheiss/mountainous-mackerel
+        href: https://github.com/andrewheiss/zany-zebra
 
   sidebar:
     - title: "Data"
