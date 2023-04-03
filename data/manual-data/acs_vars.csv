@@ -1,0 +1,94 @@
+type,variable,name,census_description,geography
+Social,Marital status,B12001_001,Estimate!!Total,block group
+Social,Marital status,B12001_004,Estimate!!Total:!!Male:!!Now married,block group
+Social,Marital status,B12001_013,Estimate!!Total:!!Female:!!Now married,block group
+Social,Children,B11005_001,Estimate!!Total,block group
+Social,Children,B11005_002,Estimate!!Total:!!Households with one or more people under 18 years,block group
+Social,Education,B15003_001,Estimate!!Total,block group
+Social,Education,B15003_017,Estimate!!Total:!!Regular high school diploma,block group
+Social,Education,B15003_018,Estimate!!Total!!GED or alternative credential,block group
+Social,Education,B15003_019,"Estimate!!Total!!Some college, less than 1 year",block group
+Social,Education,B15003_020,"Estimate!!Total!!Some college, 1 or more years, no degree",block group
+Social,Education,B15003_021,Estimate!!Total!!Associate’s degree,block group
+Social,Education,B15003_022,Estimate!!Total!!Bachelor’s degree,block group
+Social,Education,B15003_023,Estimate!!Total!!Master’s degree,block group
+Social,Education,B15003_024,Estimate!!Total!!Professional school degree,block group
+Social,Education,B15003_025,Estimate!!Total!!Doctorate degree,block group
+Social,Higher education enrollment,B14002_001,Estimate!!Total,block group
+Social,Higher education enrollment,B14002_002,Estimate!!Total:!!Male,block group
+Social,Higher education enrollment,B14002_019,Estimate!!Total:!!Male:!!Enrolled in school:!!Enrolled in college undergraduate years,block group
+Social,Higher education enrollment,B14002_022,Estimate!!Total:!!Male:!!Enrolled in school:!!Enrolled in graduate or professional school,block group
+Social,Higher education enrollment,B14002_026,Estimate!!Total:!!Female,block group
+Social,Higher education enrollment,B14002_043,Estimate!!Total:!!Female:!!Enrolled in school:!!Enrolled in college undergraduate years,block group
+Social,Higher education enrollment,B14002_046,Estimate!!Total:!!Female:!!Enrolled in school:!!Enrolled in graduate or professional school,block group
+Social,Veteran,B21001_001,Estimate!!Total,block group
+Social,Veteran,B21001_002,Estimate!!Total:!!Veteran,block group
+Social,Internet,B28003_001,Estimate!!Total,block group
+Social,Internet,B28003_004,Estimate!!Total:!!Has a computer:!!With a broadband Internet subscription,block group
+Economic,Income,B19301_001,Estimate!!Per capita income in the past 12 months (in 2020 inflation-adjusted dollars),block group
+Economic,Employment,B23025_001,Estimate!!Total,block group
+Economic,Employment,B23025_002,Estimate!!Total:!!In labor force,block group
+Economic,Commute,B08301_001,Estimate!!Total,block group
+Economic,Commute,B08301_010,Estimate!!Total:!!Public transportation (excluding taxicab),block group
+Economic,Commute,B08301_021,Estimate!!Total:!!Worked from home,block group
+Economic,Industry,C24030_001,Estimate!!Total,block group
+Economic,Industry,C24030_006,Estimate!!Total:!!Male:!!Construction,block group
+Economic,Industry,C24030_033,Estimate!!Total:!!Female:!!Construction,block group
+Economic,Industry,C24030_007,Estimate!!Total:!!Male:!!Manufacturing,block group
+Economic,Industry,C24030_034,Estimate!!Total:!!Female:!!Manufacturing,block group
+Economic,Industry,C24030_009,Estimate!!Total:!!Male:!!Retail trade,block group
+Economic,Industry,C24030_036,Estimate!!Total:!!Female:!!Retail trade,block group
+Economic,Industry,C24030_021,"Estimate!!Total:!!Male:!!Educational services, and health care and social assistance",block group
+Economic,Industry,C24030_048,"Estimate!!Total:!!Female:!!Educational services, and health care and social assistance",block group
+Economic,Industry,C24030_026,"Estimate!!Total:!!Male:!!Arts, entertainment, and recreation, and accommodation and food services:!!Accommodation and food services",block group
+Economic,Industry,C24030_053,"Estimate!!Total:!!Female:!!Arts, entertainment, and recreation, and accommodation and food services:!!Accommodation and food services",block group
+Economic,Health insurance,B27010_001,Estimate!!Total,block group
+Economic,Health insurance,B27010_017,Estimate!!Total:!!Under 19 years:!!No health insurance coverage,block group
+Economic,Health insurance,B27010_033,Estimate!!Total:!!19 to 34 years:!!No health insurance coverage,block group
+Economic,Health insurance,B27010_050,Estimate!!Total:!!35 to 64 years:!!No health insurance coverage,block group
+Economic,Health insurance,B27010_066,Estimate!!Total:!!65 years and over:!!No health insurance coverage,block group
+Economic,Poverty,C17002_001,Estimate!!Total - Ratio of Income to Poverty in the Last 12 Months,block group
+Economic,Poverty,C17002_002,Estimate!!Total!!Under .50,block group
+Economic,Poverty,C17002_003,Estimate!!Total!!.50 to .99,block group
+Economic,Poverty,C17002_008,Estimate!!Total:!!2.00 and over,block group
+Housing,Rent,B25070_001,Estimate!!Total,block group
+Housing,Rent,B25070_008,Estimate!!Total:!!35.0 to 39.9 percent,block group
+Housing,Rent,B25070_009,Estimate!!Total:!!40.0 to 49.9 percent,block group
+Housing,Rent,B25070_010,Estimate!!Total:!!50.0 percent or more,block group
+Demographic,Population,B01003_001,Estimate!!Total,block group
+Demographic,Sex,B01001_001,Estimate!!Total,block group
+Demographic,Sex,B01001_026,Estimate!!Total:!!Female,block group
+Demographic,Age,B01001_007,Estimate!!Total:!!Male:!!18 and 19 years,block group
+Demographic,Age,B01001_008,Estimate!!Total:!!Male:!!20 years,block group
+Demographic,Age,B01001_009,Estimate!!Total:!!Male:!!21 years,block group
+Demographic,Age,B01001_010,Estimate!!Total:!!Male:!!22 to 24 years,block group
+Demographic,Age,B01001_011,Estimate!!Total:!!Male:!!25 to 29 years,block group
+Demographic,Age,B01001_012,Estimate!!Total:!!Male:!!30 to 34 years,block group
+Demographic,Age,B01001_013,Estimate!!Total:!!Male:!!35 to 39 years,block group
+Demographic,Age,B01001_014,Estimate!!Total:!!Male:!!40 to 44 years,block group
+Demographic,Age,B01001_015,Estimate!!Total:!!Male:!!45 to 49 years,block group
+Demographic,Age,B01001_016,Estimate!!Total:!!Male:!!50 to 54 years,block group
+Demographic,Age,B01001_017,Estimate!!Total:!!Male:!!55 to 59 years,block group
+Demographic,Age,B01001_018,Estimate!!Total:!!Male:!!60 and 61 years,block group
+Demographic,Age,B01001_019,Estimate!!Total:!!Male:!!62 to 64 years,block group
+Demographic,Age,B01001_020,Estimate!!Total:!!Male:!!65 and 66 years,block group
+Demographic,Age,B01001_031,Estimate!!Total:!!Female:!!18 and 19 years,block group
+Demographic,Age,B01001_032,Estimate!!Total:!!Female:!!20 years,block group
+Demographic,Age,B01001_033,Estimate!!Total:!!Female:!!21 years,block group
+Demographic,Age,B01001_034,Estimate!!Total:!!Female:!!22 to 24 years,block group
+Demographic,Age,B01001_035,Estimate!!Total:!!Female:!!25 to 29 years,block group
+Demographic,Age,B01001_036,Estimate!!Total:!!Female:!!30 to 34 years,block group
+Demographic,Age,B01001_037,Estimate!!Total:!!Female:!!35 to 39 years,block group
+Demographic,Age,B01001_038,Estimate!!Total:!!Female:!!40 to 44 years,block group
+Demographic,Age,B01001_039,Estimate!!Total:!!Female:!!45 to 49 years,block group
+Demographic,Age,B01001_040,Estimate!!Total:!!Female:!!50 to 54 years,block group
+Demographic,Age,B01001_041,Estimate!!Total:!!Female:!!55 to 59 years,block group
+Demographic,Age,B01001_042,Estimate!!Total:!!Female:!!60 and 61 years,block group
+Demographic,Age,B01001_043,Estimate!!Total:!!Female:!!62 to 64 years,block group
+Demographic,Age,B01001_044,Estimate!!Total:!!Female:!!65 and 66 years,block group
+Demographic,Race,B03002_001,Estimate!!Total,block group
+Demographic,Race,B03002_003,Estimate!!Total:!!Not Hispanic or Latino:!!White alone,block group
+Economic,SNAP,B22003_001,Estimate!!Total,tract
+Economic,SNAP,B22003_002,Estimate!!Total:!!Household received Food Stamps/SNAP in the past 12 months,tract
+Housing,Vehicles,B08014_001,Estimate!!Total,tract
+Housing,Vehicles,B08014_002,Estimate!!Total:!!No vehicle available,tract

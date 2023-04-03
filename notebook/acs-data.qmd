@@ -1,0 +1,580 @@
+---
+title: "ACS master list"
+toc-depth: 5
+---
+
+```{r include=FALSE}
+tbl_details <- function(tbl_name, tbl_id) {
+  glue::glue(
+    'Table {tbl_id}: {tbl_name}',
+    '&ensp;<span class="cr-link badge bg-info">',
+    '[{{{{< fa circle-info >}}} Census Reporter](https://censusreporter.org/tables/{tbl_id}/)',
+    '</span>'
+  )
+}
+```
+
+```{css echo=FALSE}
+.cr-link {
+  font-size: 0.7em;
+}
+
+.cr-link a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: normal;
+}
+
+h4 {
+  padding-top: 1em;
+  border-top: 1px solid #cccccc;
+}
+
+pre code {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+```
+
+
+The [US Census's American Community Survey (ACS)](https://www.census.gov/programs-surveys/acs) has a massive wealth of data at a highly granular block group-level, but getting and processing that data can be a pain. The [{tidycensus} R package](https://walker-data.com/tidycensus/) makes it really easy to retrieve data from the Census's API, but we need to feed it a list of cryptic variable IDs based on specific ACS tables. Additionally, to calculate percentages within each block group, we need to grab a denominator and different components of a numerator for each variable of interest. 
+
+This document summarizes all the variables we collect from the ACS and shows each of the components from the different tables, as well as the formulas we use to combine the different components and convert them to percentages. We also include a link to the documentation for each ACS table at [Census Reporter](https://censusreporter.org/).
+
+We built this list by searching through Census Reporter and {tidycensus}'s internal database of ACS variables, accessible with this R code:
+
+```{r eval=FALSE}
+#| code-fold: false
+acs_possible_vars <- tidycensus::load_variables(2019, "acs5", cache = TRUE)
+```
+
+::: {.small}
+*(I borrowed the idea for this master document from [Anthony Holmes's script for creating an Adaptive Capacity Index](https://github.com/azh2/Social-Vulnerability-R))*
+:::
+
+
+# Census geography hierarchy
+
+But first, because I can never remember how tracts and block groups fit within the Census's hierarchy of geographies, here's a visual reminder of how the 12-digit FIPS GEOID codes work. Block groups are nested inside tracts, which are nested inside counties, which are nested inside states. ([This table](https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html) is helpful too.)
+
+![](img/geoid-12.png){fig-align="center" width=80%}
+
+
+# Data cleaning
+
+The actual data collection and cleaning is coordinated with [{targets}](https://docs.ropensci.org/targets/), so none of the code runs in this document. For reference, though, here's the R code that processes everything.
+
+All the variable names are stored in a CSV file at `data/manual-data/acs_vars.csv`. The data cleaning function uses the list of names from the CSV file to create the Census API call.
+
+```{r}
+#| code-summary: Show the first few rows of `acs_vars.csv`
+readr::read_csv(here::here("data", "manual-data", "acs_vars.csv"),
+                show_col_types = FALSE)
+```
+
+The actual data collection and processing happens in `R/funs_acs_data.R`:
+
+```{r code=xfun::read_utf8(here::here("R", "funs_acs_data.R")), eval=FALSE}
+#| code-summary: Show the R code for accessing and cleaning the ACS data
+```
+
+
+
+# Block group-level variables
+
+## Social variables
+
+### Married population
+
+{{< fa table >}} `r tbl_details("Sex by Marital Status", "B12001")`
+
+{{< fa calculator >}} Formula: 
+
+```
+(B12001_004 + B12001_013) / B12001_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B12001_001`: Estimate!!Total
+- `B12001_004`: Estimate!!Total:!!Male:!!Now married
+- `B12001_013`: Estimate!!Total:!!Female:!!Now married
+
+
+### Households with kids
+
+{{< fa table >}} `r tbl_details("Households by Presence of People Under 18 Years by Household Type", "B11005")`
+
+{{< fa calculator >}} Formula: 
+
+```
+B11005_002 / B11005_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B11005_001`: Estimate!!Total
+- `B11005_002`: Estimate!!Total:!!Households with one or more people under 18 years
+
+
+### High school education
+
+{{< fa table >}} `r tbl_details("Educational Attainment", "B15003")`
+
+{{< fa calculator >}} Formula: 
+
+```
+(B15003_017 + B15003_018 + B15003_019 + B15003_020 + B15003_021 + 
+ B15003_022 + B15003_023 + B15003_024 + B15003_025) / B15003_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B15003_001`: Estimate!!Total 
+- `B15003_017`: Estimate!!Total:!!Regular high school diploma 
+- `B15003_018`: Estimate!!Total!!GED or alternative credential 
+- `B15003_019`: Estimate!!Total!!Some college, less than 1 year 
+- `B15003_020`: Estimate!!Total!!Some college, 1 or more years, no degree 
+- `B15003_021`: Estimate!!Total!!Associate's degree 
+- `B15003_022`: Estimate!!Total!!Bachelor's degree 
+- `B15003_023`: Estimate!!Total!!Master's degree 
+- `B15003_024`: Estimate!!Total!!Professional school degree 
+- `B15003_025`: Estimate!!Total!!Doctorate degree
+
+
+### Enrolled in higher education
+
+{{< fa table >}} `r tbl_details("Sex by School Enrollment by Level of School by Type of School", "B14002")`
+
+{{< fa calculator >}} Formula: 
+
+```
+(B14002_019 + B14002_022 + B14002_043 + B14002_046) / B14002_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B14002_001`: Estimate!!Total
+- `B14002_002`: Estimate!!Total:!!Male
+- `B14002_019`: Estimate!!Total:!!Male:!!Enrolled in school:!!Enrolled in college undergraduate years
+- `B14002_022`: Estimate!!Total:!!Male:!!Enrolled in school:!!Enrolled in graduate or professional school
+- `B14002_026`: Estimate!!Total:!!Female
+- `B14002_043`: Estimate!!Total:!!Female:!!Enrolled in school:!!Enrolled in college undergraduate years
+- `B14002_046`: Estimate!!Total:!!Female:!!Enrolled in school:!!Enrolled in graduate or professional school
+
+
+### Veteran status
+
+{{< fa table >}} `r tbl_details("Sex by Age by Veteran Status for the Civilian Population 18 Years and Over", "B21001")`
+
+{{< fa calculator >}} Formula: 
+
+```
+B21001_002 / B21001_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B21001_001`: Estimate!!Total
+- `B21001_002`: Estimate!!Total:!!Veteran
+
+
+### Has computer with internet
+
+{{< fa table >}} `r tbl_details("Presence of a Computer and Type of Internet Subscription in Household", "B28003")`
+
+{{< fa calculator >}} Formula: 
+
+```
+B28003_004 / B28003_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B28003_001`: Estimate!!Total
+- `B28003_004`: Estimate!!Total:!!Has a computer:!!With a broadband Internet subscription
+
+
+## Economic variables
+
+### Per capita income
+
+{{< fa table >}} `r tbl_details("Per Capita Income", "B19301")`
+
+{{< fa calculator >}} Formula: 
+
+```
+B19301_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B19301_001`: Estimate!!Per capita income in the past 12 months (in 2020 inflation-adjusted dollars)
+
+
+### Employment status
+
+{{< fa table >}} `r tbl_details("Employment Status", "B23025")`
+
+{{< fa calculator >}} Formula: 
+
+```
+B23025_002 / B23025_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B23025_001`: Estimate!!Total
+- `B23025_002`: Estimate!!Total:!!In labor force
+
+
+### Commuting with public transportation
+
+{{< fa table >}} `r tbl_details("Means of Transportation to Work", "C08301")`
+
+{{< fa calculator >}} Formula: 
+
+```
+B08301_010 / B08301_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B08301_001`: Estimate!!Total
+- `B08301_010`: Estimate!!Total:!!Public transportation (excluding taxicab)
+
+
+### Working from home
+
+{{< fa table >}} `r tbl_details("Means of Transportation to Work", "C08301")`
+
+{{< fa calculator >}} Formula: 
+
+```
+B08301_021 / B08301_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B08301_001`: Estimate!!Total
+- `B08301_021`: Estimate!!Total:!!Worked from home
+
+
+### Working in construction
+
+{{< fa table >}} `r tbl_details("Sex by Industry for the Civilian Population", "C24030")`
+
+{{< fa calculator >}} Formula: 
+
+```
+(C24030_006 + C24030_033) / C24030_001
+```
+
+{{< fa shapes >}} Components:
+
+- `C24030_001`: Estimate!!Total
+- `C24030_006`: Estimate!!Total:!!Male:!!Construction
+- `C24030_033`: Estimate!!Total:!!Female:!!Construction
+
+
+### Working in manufacturing
+
+{{< fa table >}} `r tbl_details("Sex by Industry for the Civilian Population", "C24030")`
+
+{{< fa calculator >}} Formula: 
+
+```
+(C24030_007 + C24030_034) / C24030_001
+```
+
+{{< fa shapes >}} Components:
+
+- `C24030_001`: Estimate!!Total
+- `C24030_007`: Estimate!!Total:!!Male:!!Manufacturing
+- `C24030_034`: Estimate!!Total:!!Female:!!Manufacturing
+
+
+### Working in retail trade
+
+{{< fa table >}} `r tbl_details("Sex by Industry for the Civilian Population", "C24030")`
+
+{{< fa calculator >}} Formula: 
+
+```
+(C24030_009 + C24030_036) / C24030_001
+```
+
+{{< fa shapes >}} Components:
+
+- `C24030_001`: Estimate!!Total
+- `C24030_009`: Estimate!!Total:!!Male:!!Retail trade
+- `C24030_036`: Estimate!!Total:!!Female:!!Retail trade
+
+
+### Working in eduction, health care, and social assistance
+
+{{< fa table >}} `r tbl_details("Sex by Industry for the Civilian Population", "C24030")`
+
+{{< fa calculator >}} Formula: 
+
+```
+(C24030_021 + C24030_048) / C24030_001
+```
+
+{{< fa shapes >}} Components:
+
+- `C24030_001`: Estimate!!Total
+- `C24030_021`: Estimate!!Total:!!Male:!!Educational services, and health care and social assistance
+- `C24030_048`: Estimate!!Total:!!Female:!!Educational services, and health care and social assistance
+
+
+### Working in accommodation and food services
+
+{{< fa table >}} `r tbl_details("Sex by Industry for the Civilian Population", "C24030")`
+
+{{< fa calculator >}} Formula: 
+
+```
+(C24030_026 + C24030_053) / C24030_001
+```
+
+{{< fa shapes >}} Components:
+
+- `C24030_001`: Estimate!!Total
+- `C24030_026`: Estimate!!Total:!!Male:!!Arts, entertainment, and recreation, and accommodation and food services:!!Accommodation and food services
+- `C24030_053`: Estimate!!Total:!!Female:!!Arts, entertainment, and recreation, and accommodation and food services:!!Accommodation and food services
+
+
+### Working in high-COVID-risk industries
+
+{{< fa table >}} `r tbl_details("Sex by Industry for the Civilian Population", "C24030")`
+
+{{< fa calculator >}} Formula: 
+
+```
+(C24030_006 + C24030_033 + C24030_007 + C24030_034 + 
+ C24030_009 + C24030_036 + C24030_021 + C24030_048 + 
+ C24030_026 + C24030_053) / C24030_001
+```
+
+{{< fa shapes >}} Components:
+
+- `C24030_001`: Estimate!!Total
+- `C24030_006`: Estimate!!Total:!!Male:!!Construction
+- `C24030_033`: Estimate!!Total:!!Female:!!Construction
+- `C24030_007`: Estimate!!Total:!!Male:!!Manufacturing
+- `C24030_034`: Estimate!!Total:!!Female:!!Manufacturing
+- `C24030_009`: Estimate!!Total:!!Male:!!Retail trade
+- `C24030_036`: Estimate!!Total:!!Female:!!Retail trade
+- `C24030_021`: Estimate!!Total:!!Male:!!Educational services, and health care and social assistance
+- `C24030_048`: Estimate!!Total:!!Female:!!Educational services, and health care and social assistance
+- `C24030_026`: Estimate!!Total:!!Male:!!Arts, entertainment, and recreation, and accommodation and food services:!!Accommodation and food services
+- `C24030_053`: Estimate!!Total:!!Female:!!Arts, entertainment, and recreation, and accommodation and food services:!!Accommodation and food services
+
+
+### Uninsured
+
+{{< fa table >}} `r tbl_details("Types of Health Insurance Coverage by Age", "B27010")`
+
+{{< fa calculator >}} Formula: 
+
+```
+(B27010_017 + B27010_033 + B27010_050 + B27010_066) / B27010_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B27010_001`: Estimate!!Total
+- `B27010_017`: Estimate!!Total:!!Under 19 years:!!No health insurance coverage
+- `B27010_033`: Estimate!!Total:!!19 to 34 years:!!No health insurance coverage
+- `B27010_050`: Estimate!!Total:!!35 to 64 years:!!No health insurance coverage
+- `B27010_066`: Estimate!!Total:!!65 years and over:!!No health insurance coverage
+
+
+### Population below poverty level
+
+{{< fa table >}} `r tbl_details("Ratio of Income to Poverty Level", "C17002")`
+
+{{< fa calculator >}} Formula: 
+
+```
+(C17002_002 + C17002_003) / C17002_001
+```
+
+{{< fa shapes >}} Components:
+
+- `C17002_001`: Estimate!!Total - Ratio of Income to Poverty in the Last 12 Months 
+- `C17002_002`: Estimate!!Total!!Under .50 
+- `C17002_003`: Estimate!!Total!!.50 to .99
+
+
+### Population below 200% of the poverty level
+
+{{< fa table >}} `r tbl_details("Ratio of Income to Poverty Level", "C17002")`
+
+{{< fa calculator >}} Formula: 
+
+```
+1 - (C17002_008 / C17002_001)
+```
+
+{{< fa shapes >}} Components:
+
+- `C17002_001`: Estimate!!Total - Ratio of Income to Poverty in the Last 12 Months 
+- `C17002_008`: Estimate!!Total:!!2.00 and over 
+
+
+## Housing variables
+
+### Rent higher than average
+
+{{< fa table >}} `r tbl_details("Gross Rent as a Percentage of Household Income", "B25070")`
+
+{{< fa calculator >}} Formula: 
+
+```
+(B25070_008 + B25070_009 + B25070_010) / B25070_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B25070_001`: Estimate!!Total
+- `B25070_008`: Estimate!!Total:!!35.0 to 39.9 percent
+- `B25070_009`: Estimate!!Total:!!40.0 to 49.9 percent
+- `B25070_010`: Estimate!!Total:!!50.0 percent or more
+
+
+## Demographic variables
+
+### Total population
+
+{{< fa table >}} `r tbl_details("Total Population", "B01003")`
+
+{{< fa calculator >}} Formula: 
+
+```
+B01003_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B01003_001`: Estimate!!Total
+
+
+### Female
+
+{{< fa table >}} `r tbl_details("Sex by Age", "B01001")`
+
+{{< fa calculator >}} Formula: 
+
+```
+B01001_026 / B01001_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B01001_001`: Estimate!!Total
+- `B01001_026`: Estimate!!Total:!!Female
+
+
+### Age 18–66
+
+{{< fa table >}} `r tbl_details("Sex by Age", "B01001")`
+
+{{< fa calculator >}} Formula: 
+
+```
+(B01001_007 + B01001_008 + B01001_009 + B01001_010 + B01001_011 + 
+ B01001_012 + B01001_013 + B01001_014 + B01001_015 + B01001_016 + 
+ B01001_017 + B01001_018 + B01001_019 + B01001_020 +
+ B01001_031 + B01001_032 + B01001_033 + B01001_034 + B01001_035 + 
+ B01001_036 + B01001_037 + B01001_038 + B01001_039 + B01001_040 + 
+ B01001_041 + B01001_042 + B01001_043 + B01001_044) / B01001_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B01001_001`: Estimate!!Total
+- `B01001_007`: Estimate!!Total:!!Male:!!18 and 19 years
+- `B01001_008`: Estimate!!Total:!!Male:!!20 years
+- `B01001_009`: Estimate!!Total:!!Male:!!21 years
+- `B01001_010`: Estimate!!Total:!!Male:!!22 to 24 years
+- `B01001_011`: Estimate!!Total:!!Male:!!25 to 29 years
+- `B01001_012`: Estimate!!Total:!!Male:!!30 to 34 years
+- `B01001_013`: Estimate!!Total:!!Male:!!35 to 39 years
+- `B01001_014`: Estimate!!Total:!!Male:!!40 to 44 years
+- `B01001_015`: Estimate!!Total:!!Male:!!45 to 49 years
+- `B01001_016`: Estimate!!Total:!!Male:!!50 to 54 years
+- `B01001_017`: Estimate!!Total:!!Male:!!55 to 59 years
+- `B01001_018`: Estimate!!Total:!!Male:!!60 and 61 years
+- `B01001_019`: Estimate!!Total:!!Male:!!62 to 64 years
+- `B01001_020`: Estimate!!Total:!!Male:!!65 and 66 years
+- `B01001_031`: Estimate!!Total:!!Female:!!18 and 19 years
+- `B01001_032`: Estimate!!Total:!!Female:!!20 years
+- `B01001_033`: Estimate!!Total:!!Female:!!21 years
+- `B01001_034`: Estimate!!Total:!!Female:!!22 to 24 years
+- `B01001_035`: Estimate!!Total:!!Female:!!25 to 29 years
+- `B01001_036`: Estimate!!Total:!!Female:!!30 to 34 years
+- `B01001_037`: Estimate!!Total:!!Female:!!35 to 39 years
+- `B01001_038`: Estimate!!Total:!!Female:!!40 to 44 years
+- `B01001_039`: Estimate!!Total:!!Female:!!45 to 49 years
+- `B01001_040`: Estimate!!Total:!!Female:!!50 to 54 years
+- `B01001_041`: Estimate!!Total:!!Female:!!55 to 59 years
+- `B01001_042`: Estimate!!Total:!!Female:!!60 and 61 years
+- `B01001_043`: Estimate!!Total:!!Female:!!62 to 64 years
+- `B01001_044`: Estimate!!Total:!!Female:!!65 and 66 years
+
+
+### Non-white
+
+{{< fa table >}} `r tbl_details("Hispanic or Latino Origin by Race", "B03002")`
+
+The Census Bureau [suggests using Table B03002](https://censusreporter.org/topics/race-hispanic/) if you want to treat "Hispanic" as a "race-like" category ([see this too](https://github.com/azh2/Social-Vulnerability-R#percent-minority)).
+
+{{< fa calculator >}} Formula: 
+
+```
+1 - (B03002_003 / B03002_001)
+```
+
+{{< fa shapes >}} Components:
+
+- `B03002_001`: Estimate!!Total
+- `B03002_003`: Estimate!!Total:!!Not Hispanic or Latino:!!White alone
+
+
+# Tract-level variables
+
+## Economic variables
+
+### Households receiving food stamps/SNAP
+
+{{< fa table >}} `r tbl_details("Receipt of Food Stamps/SNAP by Poverty Status for Households", "B22003")`
+
+{{< fa calculator >}} Formula: 
+
+```
+B22003_002 / B22003_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B22003_001`: Estimate!!Total
+- `B22003_002`: Estimate!!Total:!!Household received Food Stamps/SNAP in the past 12 months
+
+
+## Housing variables
+
+### No vehicle available
+
+{{< fa table >}} `r tbl_details("", "")`
+
+{{< fa calculator >}} Formula: 
+
+```
+B08014_002 / B08014_001
+```
+
+{{< fa shapes >}} Components:
+
+- `B08014_001`: Estimate!!Total
+- `B08014_002`: Estimate!!Total:!!No vehicle available
