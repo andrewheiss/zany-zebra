@@ -1,5 +1,6 @@
 ---
-title: "King County Cauasal Inference"
+title: "Ticket to Opportunity"
+subtitle: "How Incentives Shape Access and Equity in Public Transit for Under-Represented Riders in King County"
 author:
 - name: JuneMi Kang
   affiliation: Georgia State University

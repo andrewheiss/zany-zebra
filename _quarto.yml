@@ -1,9 +1,9 @@
 project:
-  title: "King County"
+  title: "Ticket to Opportunity"
   type: website
 
   preview: 
-    port: 4444
+    port: 4567
     browser: true
     watch-inputs: false
     navigate: true
@@ -36,7 +36,7 @@ website:
 
   navbar:
     pinned: true
-    background: primary
+    background: "#426737"
     search: true
     left:
       - text: "Questions"
@@ -56,10 +56,15 @@ website:
   sidebar:
     - title: "Data"
       style: docked
-      background: dark
+      background: "#3A4330"
       contents:
         - notebook/data.qmd
-        - notebook/clean-data.qmd
+        - section: "Data cleaning"
+          contents:
+            - notebook/acs-data.qmd
+        - section: "Pipeline"
+          contents:
+            - notebook/targets.qmd
     
     - title: "Empty space lol"
 
@@ -77,7 +82,7 @@ format:
   html:
     theme:
       - zephyr
-      - notebook/html/custom.scss
+      - html/custom.scss
     toc: true
     toc-location: right
     code-fold: true

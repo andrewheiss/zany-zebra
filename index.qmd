@@ -1,6 +1,14 @@
 ---
-title: "King County Causal Inference"
-author: "JuneMi Kang and Andrew Heiss"
+title: "Ticket to Opportunity"
+subtitle: "How Incentives Shape Access and Equity in Public Transit for Under-Represented Riders in King County"
+author:
+- name: JuneMi Kang
+  affiliation: Georgia State University
+  email: jkang31@student.gsu.edu
+- name: Andrew Heiss
+  affiliation: Georgia State University
+  email: aheiss@gsu.edu
+  orcid: 0000-0002-3948-3914
 format:
   html:
     code-tools: false
@@ -9,7 +17,7 @@ format:
 
 ## Abstract
 
-Abstract goes here
+Abstract goes here.
 
 ## Code
 

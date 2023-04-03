@@ -1,0 +1,46 @@
+---
+title: "Targets workflow"
+---
+
+```{r include=FALSE}
+targets::tar_config_set(store = here::here('_targets'),
+                        script = here::here('_targets.R'))
+
+# Temporarily force a dependency
+targets::tar_load(acs_clean)
+```
+
+# targets pipeline
+
+We use [the magical {targets} package](https://docs.ropensci.org/targets/) to run our analysis and keep track of all dependencies automatically.
+
+To build our entire project, run `targets::tar_make()` at the R console.
+
+Here's our complete pipeline:
+
+```{r}
+targets::tar_glimpse()
+```
+
+
+# Actual code
+
+All the data processing and analysis is handled with dataset-specific functions that live in `R/`, which **`targets`** then runs as needed. For the sake of transparency, here's all that code:
+
+```{r generate-code-chunks, echo=FALSE}
+# MAGIC: https://gist.github.com/StevenMMortimer/e54ec050d97d79996189
+generate_chunk <- function(filename) {
+  paste0(c(paste0("#### `R/", filename, "`"),
+           paste0('```{r, code=xfun::read_utf8(here::here("R", "', filename, '")), eval=FALSE}'), 
+           "#| code-fold: true", 
+           "```", "", ""), 
+         sep = "\n")
+}
+
+out <- NULL
+for (thing in list.files(here::here("R"))) {
+  out <- c(out, generate_chunk(thing))
+}
+```
+
+`r paste(knitr::knit(text = out), collapse = "\n")`
