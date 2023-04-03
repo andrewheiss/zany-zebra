@@ -566,7 +566,7 @@ B22003_002 / B22003_001
 
 ### No vehicle available
 
-{{< fa table >}} `r tbl_details("", "")`
+{{< fa table >}} `r tbl_details("Sex of Workers by Vehicles Available", "B08014")`
 
 {{< fa calculator >}} Formula: 
 
